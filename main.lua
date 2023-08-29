@@ -60,7 +60,8 @@ end
 
 function love.update(dt)
   -- Get mouse position
-  player.x, player.y = love.mouse.getPosition()
+  -- player.x, player.y = love.mouse.getPosition()
+  player:move()
 end
 
 
