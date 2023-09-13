@@ -10,6 +10,7 @@
     "player"
   ],
   "Lua.diagnostics.disable": [
-    "inject-field"
+    "inject-field",
+    "lowercase-global"
   ]
 }

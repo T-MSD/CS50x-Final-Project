@@ -1,6 +1,7 @@
 local love = require("love")
 local Button = require("Button")
 local Player = require("Player")
+local MainMenu = require("MainMenu")
 
 
 -- All game states
@@ -50,6 +51,7 @@ end
 function love.load()
   -- Create player
   player = Player()
+  main_menu = MainMenu()
   player:setQuads()
   -- Create all buttons
   buttons.settings = Button(nil, "src/Button-sprites/Large-Buttons/Large-Buttons/Settings-Button.png")
@@ -71,17 +73,13 @@ function love.keypressed(key)
 end
 
 function love.draw()
-  love.graphics.print("x: " .. player.x .. " y: " .. player.y)
-
   -- Draw all main menu buttons
   if state.main_menu then
-    love.graphics.draw(background, 0, 0, 0, love.graphics.getWidth() / background:getWidth(), love.graphics.getHeight() / background:getHeight())
-    love.graphics.scale(0.5)
-    buttons.exit:draw(window.width - 300, window.height + 250)
-    buttons.play:draw(window.width - 300, window.height - 350)
-    buttons.settings:draw(window.width - 300, window.height - 50)
+    main_menu:init(background, window, buttons)
   end
   if state.running then
+    love.graphics.draw(background, 0, 0, 0, love.graphics.getWidth() / background:getWidth(), love.graphics.getHeight() / background:getHeight())
+    love.graphics.print("x: " .. player.x .. " y: " .. player.y)
     player:draw(player.x, player.y, player.quads[1])
   end
 end
