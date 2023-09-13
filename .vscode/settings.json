@@ -8,5 +8,8 @@
   ],
   "Lua.diagnostics.globals": [
     "player"
+  ],
+  "Lua.diagnostics.disable": [
+    "inject-field"
   ]
 }

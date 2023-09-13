@@ -49,7 +49,8 @@ end
 
 function love.load()
   -- Create player
-  player = Player("src/Flappy-bird/Player/bird1.png")
+  player = Player()
+  player:setQuads()
   -- Create all buttons
   buttons.settings = Button(nil, "src/Button-sprites/Large-Buttons/Large-Buttons/Settings-Button.png")
   buttons.exit = Button(love.event.quit, "src/Button-sprites/Large-Buttons/Large-Buttons/Exit-Button.png")
@@ -61,10 +62,13 @@ end
 function love.update(dt)
   -- Get mouse position
   -- player.x, player.y = love.mouse.getPosition()
-  player:move()
+  player:update(dt)
 end
 
 
+function love.keypressed(key)
+  player:jump()
+end
 
 function love.draw()
   love.graphics.print("x: " .. player.x .. " y: " .. player.y)
@@ -78,6 +82,6 @@ function love.draw()
     buttons.settings:draw(window.width - 300, window.height - 50)
   end
   if state.running then
-    player:draw(player.x, player.y)
+    player:draw(player.x, player.y, player.quads[1])
   end
 end
