@@ -7,12 +7,14 @@ function Button(func, src)
     y = 0,
     button_image = love.graphics.newImage(src),
 
+
     draw = function (self, x, y)
       self.x = x
       self.y = y
       love.graphics.draw(self.button_image, x, y)
     end,
 
+    
     -- If the button was pressed execute button func
     pressed = function (self, mousex, mousey)
       -- mousex and mousey * 2 because the scale is 0.5
