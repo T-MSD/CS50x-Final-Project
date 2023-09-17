@@ -5,8 +5,9 @@ function Player()
     x = 400,
     y = 100,
     gravity = 0,
-    bird = love.graphics.newImage("src/bird.png"),   
-
+    bird = love.graphics.newImage("src/background/bird/bird1.png"),   
+    playing = true,
+    lost = false,
 
     draw = function (self, x, y, bi)
       self.x = x
@@ -20,6 +21,9 @@ function Player()
     update = function (self, dt)
       self.gravity = self.gravity + 1000 * dt
       self.y = self.y + self.gravity * dt
+      if self.y + 80 >= 1080 then
+        self.lost = true  
+      end
     end,
 
 
