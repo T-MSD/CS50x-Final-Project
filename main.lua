@@ -54,6 +54,15 @@ end
 
 
 
+function CheckCollision(x1,y1,w1,h1,x2,y2,w2,h2)
+  return x1 < x2+w2 and
+         x2 < x1+w1 and
+         y1 < y2+h2 and
+         y2 < y1+h1
+end
+
+
+
 function love.load()
   player = Player()
   main_menu = MainMenu()
@@ -73,16 +82,16 @@ function love.load()
     building_x = building_x + 180
   end
 
-  pipes[1]:init(900, 480,"src/background/pipes/greenPipe1.png")
-  pipes[2]:init(900, 0,"src/background/pipes/greenPipe2.png")
-  pipes[3]:init(1300, 900, "src/background/pipes/orangePipe1.png")
-  pipes[4]:init(1300, 0, "src/background/pipes/orangePipe2.png")
-  pipes[5]:init(1700, 690, "src/background/pipes/bluePipe1.png")
-  pipes[6]:init(1700, 0, "src/background/pipes/bluePipe2.png")
-  pipes[7]:init(2100, 800, "src/background/pipes/redPipe1.png")
-  pipes[8]:init(2100, 0, "src/background/pipes/redPipe2.png")
-  pipes[9]:init(2500, 400, "src/background/pipes/purplePipe1.png")
-  pipes[10]:init(2500, 0, "src/background/pipes/purplePipe2.png")
+  pipes[1]:init(900, 480, 600,"src/background/pipes/greenPipe1.png")
+  pipes[2]:init(900, 0, 180, "src/background/pipes/greenPipe2.png")
+  pipes[3]:init(1300, 900, 180, "src/background/pipes/orangePipe1.png")
+  pipes[4]:init(1300, 0, 600, "src/background/pipes/orangePipe2.png")
+  pipes[5]:init(1700, 690, 390, "src/background/pipes/bluePipe1.png")
+  pipes[6]:init(1700, 0, 390, "src/background/pipes/bluePipe2.png")
+  pipes[7]:init(2100, 800, 500, "src/background/pipes/redPipe1.png")
+  pipes[8]:init(2100, 0, 280, "src/background/pipes/redPipe2.png")
+  pipes[9]:init(2500, 400, 680, "src/background/pipes/purplePipe1.png")
+  pipes[10]:init(2500, 0, 100, "src/background/pipes/purplePipe2.png")
 end
 
 
@@ -100,11 +109,15 @@ function love.update(dt)
 
     for i = 1, 10 do
       pipes[i]:update(dt)
+      if CheckCollision(player.x, player.y, 70, 45, pipes[i].x, pipes[i].y, pipes[i].width - 32, pipes[i].height) then
+        player.lost = true
+      end
     end
 
     for i = 1, 12 do
       buildings[i]:update(dt)
     end
+
   end
   
 end
@@ -137,7 +150,7 @@ function love.draw()
       buildings[i]:draw()
     end
     background:drawForest()
-    player:draw(player.x, player.y, player.bird)
+    player:draw(player.x, player.y)
     -- Draw pipes in their new position
     for i = 1, 10 do
       pipes[i]:draw()
@@ -150,6 +163,7 @@ function love.draw()
 
     if state.lost then
       love.graphics.print("You lost")
+      --love.graphics.print("Score:" .. player.score, 100, 100)
     end
 end
 end

@@ -1,6 +1,6 @@
 bird = 71x46
 
-300 espaço entre os tubos
+300px space between pipes
 
 greenPipe1 = 144x600
 green Pipe2 = 144x180

@@ -4,12 +4,13 @@ function Player()
   return {
     x = 400,
     y = 100,
+    score = 0,
     gravity = 0,
     bird = love.graphics.newImage("src/background/bird/bird1.png"),   
     playing = true,
     lost = false,
 
-    draw = function (self, x, y, bi)
+    draw = function (self, x, y)
       self.x = x
       self.y = y
       love.graphics.push()
@@ -21,7 +22,7 @@ function Player()
     update = function (self, dt)
       self.gravity = self.gravity + 1000 * dt
       self.y = self.y + self.gravity * dt
-      if self.y + 80 >= 1080 then
+      if self.y + 46 >= 1080 then
         self.lost = true  
       end
     end,
@@ -29,7 +30,8 @@ function Player()
 
     jump = function (self)
       self.gravity = -400
-    end
+    end,
+
   }
 end
 

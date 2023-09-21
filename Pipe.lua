@@ -3,12 +3,16 @@ local love = require("love")
 function Pipe()
   return {
     x = 0,
+    y = 0,
+    width = 144,
+    height = 0,
     src = "",
 
 
-    init = function (self, x, y, src)
+    init = function (self, x, y, height, src)
       self.x = x
       self.y = y
+      self.height = height
       self.src = src
     end,
 
@@ -23,7 +27,7 @@ function Pipe()
     
     draw = function (self)
       love.graphics.draw(love.graphics.newImage(self.src), self.x, self.y)
-    end
+    end,
   }
 end
 
