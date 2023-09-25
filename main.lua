@@ -6,6 +6,7 @@ local Pipe = require("Pipe")
 local Background = require("Background")
 local Building = require("Building")
 local Scoreboard = require("Scoreboard")
+local Highscore = require("Highscore")
 
 -- All game states
 local state = {
@@ -108,6 +109,7 @@ function love.load()
   main_menu = MainMenu()
   background = Background()
   scoreboard = Scoreboard()
+  highscore = Highscore()
 
   buttons.exit = Button(love.event.quit, "src/Button-sprites/Large-Buttons/Large-Buttons/Exit-Button.png")
   buttons.exit.drawable = true
@@ -207,14 +209,14 @@ function love.draw()
 
     -- Draw score and restart/exit buttons
     if state.lost then
-      love.graphics.print("You lost")
-      love.graphics.print("" .. player.score, 100, 100)
       buttons.lostExit.drawable = true
       buttons.replay.drawable = true
       scoreboard.drawable = true
-      scoreboard:draw()
-      buttons.lostExit:draw(2900, 2340, 0.3)
-      buttons.replay:draw(3300, 2340, 0.3)
+      highscore:loadScore()
+      if highscore.highscore < player.score then
+        highscore:saveScore(player.score)
+      end
+      scoreboard:draw(buttons, player.score, highscore.highscore)
     end
   end
 end
