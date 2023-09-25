@@ -30,3 +30,6 @@ background = 1920x1010
 building = 180x120
 
 
+scoreboard = 300x500
+
+

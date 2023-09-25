@@ -5,6 +5,7 @@ local MainMenu = require("MainMenu")
 local Pipe = require("Pipe")
 local Background = require("Background")
 local Building = require("Building")
+local Scoreboard = require("Scoreboard")
 
 -- All game states
 local state = {
@@ -65,6 +66,7 @@ local function playGame()
   state.lost = false
   buttons.lostExit.drawable = false
   buttons.replay.drawable = false
+  scoreboard.drawable = false
 end
 
 
@@ -105,6 +107,7 @@ function love.load()
   player = Player()
   main_menu = MainMenu()
   background = Background()
+  scoreboard = Scoreboard()
 
   buttons.exit = Button(love.event.quit, "src/Button-sprites/Large-Buttons/Large-Buttons/Exit-Button.png")
   buttons.exit.drawable = true
@@ -141,7 +144,6 @@ function love.update(dt)
     player:update(dt)
 
     -- update pipes movement and check for collisions
-    -- with the player
     for i = 1, 10 do
       pipes[i]:update(dt, player)
       if CheckCollision(player.x, player.y, 70, 45, pipes[i].x, pipes[i].y, pipes[i].width - 32, pipes[i].height) then
@@ -206,11 +208,13 @@ function love.draw()
     -- Draw score and restart/exit buttons
     if state.lost then
       love.graphics.print("You lost")
-      love.graphics.print("Score:" .. player.score, 100, 100)
+      love.graphics.print("" .. player.score, 100, 100)
       buttons.lostExit.drawable = true
       buttons.replay.drawable = true
-      buttons.lostExit:draw(1620, 1200)
-      buttons.replay:draw(2020, 1200)
+      scoreboard.drawable = true
+      scoreboard:draw()
+      buttons.lostExit:draw(2900, 2340, 0.3)
+      buttons.replay:draw(3300, 2340, 0.3)
     end
   end
 end
