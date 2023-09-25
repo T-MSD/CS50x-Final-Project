@@ -4,7 +4,7 @@ function Building()
   return {
     x = 0,
     y = 620,
-    src = "src/background/background/buildings.png",
+    src = "background/background/buildings.png",
 
     -- Init the building
     init = function (self, x)

@@ -67,7 +67,7 @@ local function playGame()
   state.lost = false
   buttons.lostExit.drawable = false
   buttons.replay.drawable = false
-  scoreboard.drawable = false
+  Scoreboard.drawable = false
 end
 
 
@@ -83,18 +83,18 @@ end
 
 
 -- Initialize all pipes and make sure the scored == false 
--- when we restart the game
+-- when the game is restarted
 initPipes = function()
-  pipes[1]:init(900, 480, 600,"src/background/pipes/greenPipe1.png")
-  pipes[2]:init(900, 0, 180, "src/background/pipes/greenPipe2.png")
-  pipes[3]:init(1300, 900, 180, "src/background/pipes/orangePipe1.png")
-  pipes[4]:init(1300, 0, 600, "src/background/pipes/orangePipe2.png")
-  pipes[5]:init(1700, 690, 390, "src/background/pipes/bluePipe1.png")
-  pipes[6]:init(1700, 0, 390, "src/background/pipes/bluePipe2.png")
-  pipes[7]:init(2100, 800, 500, "src/background/pipes/redPipe1.png")
-  pipes[8]:init(2100, 0, 280, "src/background/pipes/redPipe2.png")
-  pipes[9]:init(2500, 400, 680, "src/background/pipes/purplePipe1.png")
-  pipes[10]:init(2500, 0, 100, "src/background/pipes/purplePipe2.png")
+  pipes[1]:init(900, 480, 600,"background/pipes/greenPipe1.png")
+  pipes[2]:init(900, 0, 180, "background/pipes/greenPipe2.png")
+  pipes[3]:init(1300, 900, 180, "background/pipes/orangePipe1.png")
+  pipes[4]:init(1300, 0, 600, "background/pipes/orangePipe2.png")
+  pipes[5]:init(1700, 690, 390, "background/pipes/bluePipe1.png")
+  pipes[6]:init(1700, 0, 390, "background/pipes/bluePipe2.png")
+  pipes[7]:init(2100, 800, 500, "background/pipes/redPipe1.png")
+  pipes[8]:init(2100, 0, 280, "background/pipes/redPipe2.png")
+  pipes[9]:init(2500, 400, 680, "background/pipes/purplePipe1.png")
+  pipes[10]:init(2500, 0, 100, "background/pipes/purplePipe2.png")
 
   for i = 1, 10 do
     pipes[i].scored = false
@@ -106,17 +106,14 @@ end
 -- Load/init every game object
 function love.load()
   player = Player()
-  main_menu = MainMenu()
   background = Background()
-  scoreboard = Scoreboard()
-  highscore = Highscore()
 
-  buttons.exit = Button(love.event.quit, "src/Button-sprites/Large-Buttons/Large-Buttons/Exit-Button.png")
+  buttons.exit = Button(love.event.quit, "Button-sprites/Large-Buttons/Large-Buttons/Exit-Button.png")
   buttons.exit.drawable = true
-  buttons.play = Button(playGame, "src/Button-sprites/Large-Buttons/Large-Buttons/Play-Button.png")
+  buttons.play = Button(playGame, "Button-sprites/Large-Buttons/Large-Buttons/Play-Button.png")
   buttons.play.drawable = true
-  buttons.lostExit = Button(love.event.quit, "src/Button-sprites/Square-Buttons/Square-Buttons/Exit-Button.png")
-  buttons.replay = Button(playGame, "src/Button-sprites/Square-Buttons/Square-Buttons/Replay-Button.png")
+  buttons.lostExit = Button(love.event.quit, "Button-sprites/Square-Buttons/Square-Buttons/Exit-Button.png")
+  buttons.replay = Button(playGame, "Button-sprites/Square-Buttons/Square-Buttons/Replay-Button.png")
 
   for i = 1, 10 do
     pipes[i] = Pipe()
@@ -181,7 +178,7 @@ function love.draw()
     end
     background:drawForest()
     background:drawGround()
-    main_menu:init(window, buttons)
+    MainMenu:init(window, buttons)
   end
 
   -- Remove main menu buttons
@@ -202,21 +199,16 @@ function love.draw()
     end
     background:drawGround()
 
-    -- !!! Remove before submiting !!!
-    if state.ongoing then
-      love.graphics.print("x: " .. player.x .. " y: " .. player.y)
-    end
-
     -- Draw score and restart/exit buttons
     if state.lost then
       buttons.lostExit.drawable = true
       buttons.replay.drawable = true
-      scoreboard.drawable = true
-      highscore:loadScore()
-      if highscore.highscore < player.score then
-        highscore:saveScore(player.score)
+      Scoreboard.drawable = true
+      Highscore:loadScore()
+      if Highscore.highscore < player.score then
+        Highscore:saveScore(player.score)
       end
-      scoreboard:draw(buttons, player.score, highscore.highscore)
+      Scoreboard:draw(buttons, player.score, Highscore.highscore)
     end
   end
 end

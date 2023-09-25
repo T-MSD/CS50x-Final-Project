@@ -2,13 +2,12 @@ local love = require("love")
 
 function Background()
 	return {
-		background = love.graphics.newImage("src/background/background/background.png"),
-		forest = love.graphics.newImage("src/background/background/forest.png"),
-		ground = love.graphics.newImage("src/background/background/ground.png"),
+		background = love.graphics.newImage("background/background/background.png"),
+		forest = love.graphics.newImage("background/background/forest.png"),
+		ground = love.graphics.newImage("background/background/ground.png"),
 
 		-- Draw the the sky and clouds
 		drawBack = function(self)
-			local x = 0
 			love.graphics.draw(self.background, 0, 0)
 		end,
 

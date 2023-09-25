@@ -6,7 +6,7 @@ function Player()
     y = 100,
     score = 0,
     gravity = 0,
-    bird = love.graphics.newImage("src/background/bird/bird1.png"),   
+    bird = love.graphics.newImage("background/bird/bird1.png"),   
     playing = true,
     lost = false,
 
