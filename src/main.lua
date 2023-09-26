@@ -1,12 +1,13 @@
 local love = require("love")
+local Scoreboard = require("Scoreboard")
+local Highscore = require("Highscore")
+local Sound = require("Sound")
+local MainMenu = require("MainMenu")
 local Button = require("Button")
 local Player = require("Player")
-local MainMenu = require("MainMenu")
 local Pipe = require("Pipe")
 local Background = require("Background")
 local Building = require("Building")
-local Scoreboard = require("Scoreboard")
-local Highscore = require("Highscore")
 
 -- All game states
 local state = {
@@ -147,6 +148,7 @@ function love.update(dt)
       pipes[i]:update(dt, player)
       if CheckCollision(player.x, player.y, 70, 45, pipes[i].x, pipes[i].y, pipes[i].width - 32, pipes[i].height) then
         player.lost = true
+        Sound:play(Sound.ended)
       end
     end
 
@@ -163,6 +165,7 @@ end
 function love.keypressed(key)
   if key == "space" then
     player:jump()
+    Sound:play(Sound.jump)
   end
 end
 
@@ -207,6 +210,7 @@ function love.draw()
       Highscore:loadScore()
       if Highscore.highscore < player.score then
         Highscore:saveScore(player.score)
+        Sound:play(Sound.newHighscore)
       end
       Scoreboard:draw(buttons, player.score, Highscore.highscore)
     end

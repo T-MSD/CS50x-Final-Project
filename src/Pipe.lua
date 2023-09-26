@@ -1,4 +1,5 @@
 local love = require("love")
+local Sound = require("Sound")
 
 -- large buttons 600x200
 -- square buttons 200x200
@@ -32,6 +33,7 @@ function Pipe()
       if self.x + 144 < player.x and not self.scored then
         self.scored = true
         player.score = player.score + 1/2
+        Sound:play(Sound.scored)
       end
     end,
 
