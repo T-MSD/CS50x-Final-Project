@@ -35,7 +35,7 @@ function Player()
     update = function (self, dt)
       self.gravity = self.gravity + 1000 * dt
       self.y = self.y + self.gravity * dt
-      if self.y + 46 >= 1080 then
+      if self.y + 46 >= 1000 then
         self.lost = true
         Sound:play(Sound.ended) 
       end

@@ -11,8 +11,8 @@ orangePipe2 = 144x600
 bluePipe1 = 144x390
 bluePipe2 = 144x390
 
-redPipe1 = 144x500
-redPipe2 = 144x280
+redPipe1 = 144x280
+redPipe2 = 144x500
 
 purplePipe1 = 144x680
 purplePipe2 = 144x100

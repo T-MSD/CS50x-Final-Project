@@ -15,7 +15,6 @@ local state = {
   running = false,
   ongoing = false,
   paused = false,
-  settings = false,
   lost = false,
 }
 
@@ -35,43 +34,85 @@ local buildings = {}
 
 
 
--- Register wich button was pressed, if it was pressed
-function love.mousepressed(x, y, pressed)
-  if not state.running then
-    if pressed == 1 then
-      if state.main_menu then
-        for button in pairs(buttons) do
-          buttons[button]:pressed(x, y)
-        end
-      end
-    end
-  end
-  if state.lost then
-    if pressed == 1 then
-      for button in pairs(buttons) do
-        if buttons[button]:pressed(x, y) then
-          player:reset()
-          initPipes()
-        end
-      end
-    end
-  end
+-- Reset game
+local function resetGame()
+  player:reset()
+  initPipes()
 end
 
 
 
 -- Change states and start game
 local function playGame()
+  resetGame()
   state.main_menu = false
   state.running = true
   state.ongoing = true
   state.lost = false
+  state.paused = false
   Scoreboard.scoreCounterDrawable = true
   buttons.lostExit.drawable = false
   buttons.replay.drawable = false
   Scoreboard.drawable = false
   player.scoreDrawable = true
+  love.audio.stop()
   Sound:play(Sound.background)
+end
+
+
+
+-- Pause game
+function pauseGame()
+  state.paused = true
+  state.ongoing = false
+  buttons.paused.drawable = true
+  buttons.lostExit.drawable = true
+  buttons.replay.drawable = true
+  love.audio.pause()
+end
+
+
+
+-- Resume game
+local function resumeGame()
+  state.paused = false
+  state.ongoing = true
+  love.audio.play(Sound.background)
+end
+
+
+
+-- Make sure the player jumps only when the spacebar is pressed
+function love.keypressed(key)
+  if key == "space" then
+    player:jump()
+    Sound:play(Sound.jump)
+  elseif key == "escape" and state.ongoing then
+    pauseGame()
+  end
+end
+
+
+
+-- Register wich button was pressed, if it was pressed
+function love.mousepressed(x, y, pressed)
+  if not state.running and pressed == 1 and state.main_menu then
+    for button in pairs(buttons) do
+      buttons[button]:pressed(x, y)
+    end
+  end
+  if state.lost and pressed == 1 then
+    for button in pairs(buttons) do
+      if buttons[button]:pressed(x, y) then
+        resetGame()
+      end
+    end
+  end
+  if state.paused and pressed == 1 then
+    for button in pairs(buttons) do
+      buttons[button]:pressed(x, y)
+    end
+  end
 end
 
 
@@ -95,8 +136,8 @@ initPipes = function()
   pipes[4]:init(1300, 0, 600, "background/pipes/orangePipe2.png")
   pipes[5]:init(1700, 690, 390, "background/pipes/bluePipe1.png")
   pipes[6]:init(1700, 0, 390, "background/pipes/bluePipe2.png")
-  pipes[7]:init(2100, 800, 500, "background/pipes/redPipe1.png")
-  pipes[8]:init(2100, 0, 280, "background/pipes/redPipe2.png")
+  pipes[7]:init(2100, 800, 280, "background/pipes/redPipe1.png")
+  pipes[8]:init(2100, 0, 500, "background/pipes/redPipe2.png")
   pipes[9]:init(2500, 400, 680, "background/pipes/purplePipe1.png")
   pipes[10]:init(2500, 0, 100, "background/pipes/purplePipe2.png")
 
@@ -118,11 +159,11 @@ function love.load()
   buttons.play.drawable = true
   buttons.lostExit = Button(love.event.quit, "Button-sprites/Square-Buttons/Square-Buttons/Exit-Button.png")
   buttons.replay = Button(playGame, "Button-sprites/Square-Buttons/Square-Buttons/Replay-Button.png")
+  buttons.paused = Button(resumeGame, "Button-sprites/Square-Buttons/Square-Buttons/play-paused.png")
 
   for i = 1, 10 do
     pipes[i] = Pipe()
   end
-  initPipes()
 
   local building_x = 0
   for i = 1, 12 do
@@ -149,6 +190,9 @@ function love.update(dt)
     -- update pipes movement and check for collisions
     for i = 1, 10 do
       pipes[i]:update(dt, player)
+    end
+
+    for i = 1, 10 do
       if CheckCollision(player.x, player.y, 70, 45, pipes[i].x, pipes[i].y, pipes[i].width - 32, pipes[i].height) then
         player.lost = true
         Sound:play(Sound.ended)
@@ -159,16 +203,6 @@ function love.update(dt)
     for i = 1, 12 do
       buildings[i]:update(dt)
     end
-  end
-end
-
-
-
--- Make sure the player jumps only when the spacebar is pressed
-function love.keypressed(key)
-  if key == "space" then
-    player:jump()
-    Sound:play(Sound.jump)
   end
 end
 
@@ -206,6 +240,12 @@ function love.draw()
     background:drawGround()
     Scoreboard:drawCounter()
     player:drawScore()
+
+    if state.paused then
+      buttons.paused:draw(860, 440, 1)
+      buttons.lostExit:draw(2900, 2340, 0.3)
+      buttons.replay:draw(3300, 2340, 0.3)
+    end
 
     -- Draw score and restart/exit buttons
     if state.lost then

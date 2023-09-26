@@ -26,7 +26,7 @@ function Button(func, src)
 
 
     -- If the button was pressed execute button func
-    -- Mousex and mousey * 2 because the scale is 0.5
+    -- Mousex and mousey * 1/scale because the hitbox depends on the scale
     pressed = function (self, mousex, mousey)
       if self.drawable and mousex * (1/self.scale) >= self.x and mousex * (1/self.scale) <= self.x + self.button_image:getWidth()
       and mousey * (1/self.scale) >= self.y and mousey * (1/self.scale) <= self.y + self.button_image:getHeight() then
