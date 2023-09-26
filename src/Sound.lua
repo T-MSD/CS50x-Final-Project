@@ -5,6 +5,8 @@ local Sound = {
   jump = love.audio.newSource('sounds/jump.mp3', 'static'),
   scored = love.audio.newSource('sounds/point.mp3', 'static'),
   ended = love.audio.newSource('sounds/die.mp3', 'static'),
+  
+  -- https://www.youtube.com/watch?v=dm4kGvOxmjE&list=PLdsGes2mFh92eHpOZVJQgoubb6rF0CcvU&index=2&ab_channel=Pix
   background = love.audio.newSource('sounds/background-music.mp3', 'stream'),
 }
 
