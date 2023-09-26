@@ -10,6 +10,7 @@ function Player()
     bird = love.graphics.newImage("background/bird/bird1.png"),   
     playing = true,
     lost = false,
+    scoreDrawable = false,
 
 
     -- Draw the plyer
@@ -17,6 +18,16 @@ function Player()
       self.x = x
       self.y = y
       love.graphics.draw(self.bird, x, y)
+    end,
+
+    drawScore = function (self)
+      if self.scoreDrawable then
+        local font = love.graphics.newFont(40)
+        local black = {0, 0, 0}
+        love.graphics.setFont(font)
+        local txtScore = "".. self.score
+        love.graphics.print({black, txtScore}, 100 - font:getWidth(txtScore)/2, 52.5)
+      end
     end,
 
     -- Update the player position and gravity

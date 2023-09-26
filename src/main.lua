@@ -66,9 +66,12 @@ local function playGame()
   state.running = true
   state.ongoing = true
   state.lost = false
+  Scoreboard.scoreCounterDrawable = true
   buttons.lostExit.drawable = false
   buttons.replay.drawable = false
   Scoreboard.drawable = false
+  player.scoreDrawable = true
+  Sound:play(Sound.background)
 end
 
 
@@ -201,9 +204,13 @@ function love.draw()
       pipes[i]:draw()
     end
     background:drawGround()
+    Scoreboard:drawCounter()
+    player:drawScore()
 
     -- Draw score and restart/exit buttons
     if state.lost then
+      player.scoreDrawable = false
+      Scoreboard.scoreCounterDrawable = false
       buttons.lostExit.drawable = true
       buttons.replay.drawable = true
       Scoreboard.drawable = true

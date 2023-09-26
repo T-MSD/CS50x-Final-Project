@@ -5,31 +5,25 @@ bird = 71x46
 greenPipe1 = 144x600
 green Pipe2 = 144x180
 
-
 orangePipe1 = 144x180
 orangePipe2 = 144x600
-
 
 bluePipe1 = 144x390
 bluePipe2 = 144x390
 
-
 redPipe1 = 144x500
 redPipe2 = 144x280
-
 
 purplePipe1 = 144x680
 purplePipe2 = 144x100
 
 ground = 1920x70
 
-
 background = 1920x1010
-
 
 building = 180x120
 
-
 scoreboard = 300x500
 
+scoreCounter = 100x50
 

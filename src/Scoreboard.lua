@@ -2,8 +2,19 @@ local love = require("love")
 
 local Scoreboard = {
   drawable = false,
-  image = love.graphics.newImage("background/scoreboard/score.png"),
+  scoreboardImage = love.graphics.newImage("background/scoreboard/score.png"),
+  scoreCounter = love.graphics.newImage("background/scoreboard/score-counter.png"),
+  scoreCounterDrawable = false,
 }
+
+
+-- Draw score counter
+function Scoreboard:drawCounter()
+  if Scoreboard.scoreCounterDrawable then
+    love.graphics.draw(Scoreboard.scoreCounter, 50, 50)
+  end
+end
+
 
 -- Draw scoreboard
 function Scoreboard:draw(buttons, score, highscore)
@@ -12,7 +23,7 @@ function Scoreboard:draw(buttons, score, highscore)
     local black = {0, 0, 0}
     love.graphics.setFont(font)
 
-    love.graphics.draw(Scoreboard.image, 810, 290)
+    love.graphics.draw(Scoreboard.scoreboardImage, 810, 290)
     buttons.lostExit:draw(2900, 2340, 0.3)
     buttons.replay:draw(3300, 2340, 0.3)
 
