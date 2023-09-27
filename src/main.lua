@@ -29,6 +29,15 @@ local buttons = {}
 -- pipes table
 local pipes = {}
 
+-- x and y positions for each pipe, by color
+local pipeAttributes = {
+  green = {400, 600, 0, 180},
+  orange = {900, 180, 0, 600},
+  blue = {690, 390, 0, 390},
+  red = {800, 280, 0, 500},
+  purple = {400, 680, 0, 100}
+}
+
 -- buildings table
 local buildings = {}
 
@@ -127,22 +136,34 @@ end
 
 
 
+-- Randomize pipes generation
+function randomizePipes()
+  local pipeColors = {"green", "orange", "blue", "red", "purple"}
+  for i = 1, 9, 2 do
+    if pipes[i].x == 1900 and pipes[i+1].x == 1900 then
+      local random = math.random(1, 5)
+      local randomColor = pipeColors[random]
+      pipes[i]:init(1900, pipeAttributes["" .. randomColor][1], pipeAttributes["" .. randomColor][2], "background/pipes/" .. randomColor .. "Pipe1.png")
+      pipes[i+1]:init(1900, pipeAttributes["" .. randomColor][3], pipeAttributes["" .. randomColor][4], "background/pipes/" .. randomColor .. "Pipe2.png")
+    end
+  end
+end
+
+
+
 -- Initialize all pipes and make sure the scored == false 
 -- when the game is restarted
-initPipes = function()
-  pipes[1]:init(900, 480, 600,"background/pipes/greenPipe1.png")
-  pipes[2]:init(900, 0, 180, "background/pipes/greenPipe2.png")
-  pipes[3]:init(1300, 900, 180, "background/pipes/orangePipe1.png")
-  pipes[4]:init(1300, 0, 600, "background/pipes/orangePipe2.png")
-  pipes[5]:init(1700, 690, 390, "background/pipes/bluePipe1.png")
-  pipes[6]:init(1700, 0, 390, "background/pipes/bluePipe2.png")
-  pipes[7]:init(2100, 800, 280, "background/pipes/redPipe1.png")
-  pipes[8]:init(2100, 0, 500, "background/pipes/redPipe2.png")
-  pipes[9]:init(2500, 400, 680, "background/pipes/purplePipe1.png")
-  pipes[10]:init(2500, 0, 100, "background/pipes/purplePipe2.png")
-
-  for i = 1, 10 do
-    pipes[i].scored = false
+function initPipes()
+  local pipe = 1
+  local pipeX = 900
+  local pipeColors = {"green", "orange", "blue", "red", "purple"}
+  for color = 1, 5 do
+    pipes[pipe]:init(pipeX, pipeAttributes[pipeColors[color]][1], pipeAttributes[pipeColors[color]][2], "background/pipes/" .. pipeColors[color] .. "Pipe1.png")
+    pipes[pipe].scored = false
+    pipes[pipe+1]:init(pipeX, pipeAttributes[pipeColors[color]][3], pipeAttributes[pipeColors[color]][4], "background/pipes/" .. pipeColors[color] .. "Pipe2.png")
+    pipes[pipe+1].scored = false
+    pipe = pipe + 2
+    pipeX = pipeX + 400
   end
 end
 
@@ -191,6 +212,7 @@ function love.update(dt)
     for i = 1, 10 do
       pipes[i]:update(dt, player)
     end
+    randomizePipes()
 
     for i = 1, 10 do
       if CheckCollision(player.x, player.y, 70, 45, pipes[i].x, pipes[i].y, pipes[i].width - 32, pipes[i].height) then
@@ -246,7 +268,7 @@ function love.draw()
       buttons.lostExit:draw(2900, 2340, 0.3)
       buttons.replay:draw(3300, 2340, 0.3)
     end
-
+    
     -- Draw score and restart/exit buttons
     if state.lost then
       player.scoreDrawable = false

@@ -11,6 +11,7 @@ function Player()
     playing = true,
     lost = false,
     scoreDrawable = false,
+    angle = 0,
 
 
     -- Draw the plyer
