@@ -10,7 +10,7 @@ local Sound = {
   background = love.audio.newSource('sounds/background-music.mp3', 'stream'),
 }
 
--- This func allows the game to play the sound every time space key is pressed
+-- This func allows the game to play the sound every time the key is pressed
 function Sound:play(source)
   local clone = source:clone()
   if source == Sound.scored then
