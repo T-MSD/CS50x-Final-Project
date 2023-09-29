@@ -118,6 +118,7 @@ function love.mousepressed(x, y, pressed)
   if state.paused and pressed == 1 then
     for button in pairs(buttons) do
       buttons[button]:pressed(x, y)
+      love.audio.play(Sound.background)
     end
   end
 end
