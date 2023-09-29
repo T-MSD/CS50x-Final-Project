@@ -14,7 +14,7 @@ local Sound = {
 function Sound:play(source)
   local clone = source:clone()
   if source == Sound.scored then
-    clone:setVolume(0.1)
+    clone:setVolume(0.05)
   end
   clone:play()
 end

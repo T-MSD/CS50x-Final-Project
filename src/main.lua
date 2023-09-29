@@ -64,8 +64,6 @@ local function playGame()
   buttons.replay.drawable = false
   Scoreboard.drawable = false
   player.scoreDrawable = true
-  love.audio.stop()
-  Sound:play(Sound.background)
 end
 
 
@@ -171,6 +169,9 @@ end
 
 -- Load/init every game object
 function love.load()
+  Sound.background:setLooping(true)
+  Sound:play(Sound.background)
+  
   player = Player()
   background = Background()
 
