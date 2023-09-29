@@ -126,7 +126,7 @@ end
 
 
 -- Axis-aligned bounding box (AABB) collision detection
-function CheckCollision(x1,y1,w1,h1,x2,y2,w2,h2)
+function checkCollision(x1,y1,w1,h1,x2,y2,w2,h2)
   return x1 < x2+w2 and
          x2 < x1+w1 and
          y1 < y2+h2 and
@@ -217,7 +217,7 @@ function love.update(dt)
     randomizePipes()
 
     for i = 1, 10 do
-      if CheckCollision(player.x, player.y, 70, 45, pipes[i].x, pipes[i].y, pipes[i].width - 32, pipes[i].height) then
+      if checkCollision(player.x, player.y, 70, 45, pipes[i].x, pipes[i].y, pipes[i].width - 32, pipes[i].height) then
         player.lost = true
         Sound:play(Sound.ended)
       end
